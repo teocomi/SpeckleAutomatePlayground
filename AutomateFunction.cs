@@ -33,7 +33,7 @@ class AutomateFunction
     var streamId = await client.StreamCreate(new StreamCreateInput { description = "Speckle Automate is Awesome ⭐", name = "Automated Stream" });
     var data = new Base();
     data["matteos-prop"] = "zis iz a test";
-    var commitId = await Helpers.Send(streamId, data, "I'M A BOT", "automate");
+    var commitId = await Helpers.Send(streamId, data, "I'M A BOT", "automate", account: account);
 
 
     return $"{speckleProjectData.SpeckleServerUrl}/streams/{streamId}/commits/{commitId}";
