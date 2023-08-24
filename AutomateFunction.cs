@@ -19,6 +19,7 @@ class AutomateFunction
 {
   public static async Task<string> Run(
     SpeckleProjectData speckleProjectData,
+    FunctionInputs functionInputs,
     string speckleToken
   )
   {

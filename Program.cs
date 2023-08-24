@@ -1,7 +1,7 @@
-﻿using System.CommandLine;
-using Newtonsoft.Json.Schema.Generation;
+﻿using Newtonsoft.Json.Schema.Generation;
 using Newtonsoft.Json.Serialization;
 using Speckle.Newtonsoft.Json;
+using System.CommandLine;
 
 
 internal static class Program
@@ -65,9 +65,7 @@ internal static class Program
       functionInputs,
       speckleToken
     );
-    Console.WriteLine(
-      $"Found {count} elements that have the type {functionInputs.SpeckleTypeToCount}"
-    );
+
   }
 
   static string GenerateFunctionInputSchema()
