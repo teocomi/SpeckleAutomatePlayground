@@ -1,6 +1,7 @@
 ﻿using Objects.Geometry;
 using Speckle.Core.Api;
 using Speckle.Core.Credentials;
+using Speckle.Core.Logging;
 using Speckle.Core.Models;
 using Speckle.Core.Models.Extensions;
 using Speckle.Core.Transports;
@@ -33,7 +34,29 @@ class AutomateFunction
     var streamId = await client.StreamCreate(new StreamCreateInput { description = "Speckle Automate is Awesome ⭐", name = "Automated Stream" });
     var data = new Base();
     data["matteos-prop"] = "zis iz a test";
-    var commitId = await Helpers.Send(streamId, data, "I'M A BOT", "automate", account: account);
+
+
+    var transport = new ServerTransport(client.Account, streamId);
+    var branchName = "main";
+
+    var objectId = await Operations
+      .Send(data, new List<ITransport> { transport })
+      .ConfigureAwait(false);
+
+    Analytics.TrackEvent(client.Account, Analytics.Events.Send);
+
+    var commitId = await client
+      .CommitCreate(
+        new CommitCreateInput
+        {
+          streamId = streamId,
+          branchName = branchName,
+          objectId = objectId,
+          message = "automatiiiing",
+          sourceApplication = "automate",
+        }
+      )
+      .ConfigureAwait(false);
 
 
     return $"{speckleProjectData.SpeckleServerUrl}/streams/{streamId}/commits/{commitId}";
